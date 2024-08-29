@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.bg-image {
+    height: 500px; /* Adjust the height as needed */
+  }

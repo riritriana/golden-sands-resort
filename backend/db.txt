@@ -1,0 +1,11 @@
+Executed SQL Statement : Create table `golden_sands_resort`.`hotel`(  
+  `id` longblob NOT NULL,
+  `roomType` varchar(100),
+  `description` text,
+  `capasity` int,
+  `roomFacilities` text,
+  `price` int,
+  primary key (`id`)
+) 
+Error Number : 1170 
+Error Message: BLOB/TEXT column 'id' used in key specification without a key length 
