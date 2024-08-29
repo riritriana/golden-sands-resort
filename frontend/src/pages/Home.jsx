@@ -1,6 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const images = [
   {
@@ -19,6 +20,7 @@ const images = [
 
 export default function Home() {
   const [count, setCount] = useState(0);
+  const navigate = useNavigate();
 
   function handlePrevious() {
     setCount((count - 1 + images.length) % images.length);
@@ -27,9 +29,11 @@ export default function Home() {
   function handleNext() {
     setCount((count + 1) % images.length);
   }
-
+  function handleNavigate() {
+    navigate("/galery");
+  }
   return (
-    <div>
+    <div className="font-serif">
       {/* <div className="bg-image">
         <img
           className="h-3/4 w-full object-cover"
@@ -50,9 +54,16 @@ export default function Home() {
             sapiente quos, porro nostrum! Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Recusandae, numquam! Totam, est! Blanditiis,
             consectetur ducimus! Nulla inventore in recusandae laborum, ipsam
-            eveniet nisi quia autem dolore beatae ut! Illum, nesciunt.
+            eveniet nisi quia autem dolore beatae ut! Illum, nesciunt. Lorem,
+            ipsum dolor sit amet consectetur adipisicing elit. Neque, quidem
+            corporis? Nisi reiciendis asperiores itaque quae similique delectus,
+            odio labore distinctio error at veniam earum, non ipsum repellendus
+            architecto incidunt.
           </p>
-          <button className="p-3 mt-4 bg-blue-200 hover:bg-blue-400 font-semibold rounded-lg">
+          <button
+            className="p-3 mt-4 bg-blue-200 hover:bg-blue-400 font-semibold rounded-lg"
+            onClick={handleNavigate}
+          >
             EXPLORE OUR HOTEL
           </button>
         </div>
