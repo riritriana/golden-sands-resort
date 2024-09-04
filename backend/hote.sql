@@ -1,0 +1,1 @@
+`golden_sands_resort2`

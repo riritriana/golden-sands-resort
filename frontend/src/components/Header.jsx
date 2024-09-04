@@ -2,10 +2,9 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header className="w-full flex items-center justify-between bg-slate-100 shadow-lg px-4 py-4 font-serif">
+    <header className="w-full flex items-center justify-between bg-slate-100 shadow-lg px-6 py-6 font-serif">
       <div className="flex w-1/2 items-center gap-4">
-        {/* <img src="vite.svg" alt="" /> */}
-        <h1 className="text-3xl font-bold text-blue-300 text-shadow-md">
+        <h1 className="text-3xl font-bold text-blue-400 text-shadow-md">
           Golden Sands Resort
         </h1>
       </div>
@@ -57,6 +56,30 @@ export default function Header() {
               }
             >
               Gallery
+            </NavLink>
+          </li>
+          <li className="flex items-center gap-2">
+            <NavLink
+              to="/admin"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-blue-500 border-b-2 border-blue-500"
+                  : "text-gray-600"
+              }
+            >
+              Admin
+            </NavLink>
+          </li>
+          <li className="flex items-center gap-2">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-blue-500 border-b-2 border-blue-500"
+                  : "text-gray-600"
+              }
+            >
+              Login
             </NavLink>
           </li>
         </ul>

@@ -43,7 +43,7 @@ export default function Home() {
       </div> */}
       <div className="flex w-full justify-center items-center gap-2 p-4">
         <div className="w-1/2 ml-8">
-          <h1 className="text-3xl font-bold text-blue-300 text-shadow-md ">
+          <h1 className="text-2xl font-bold text-black text-shadow-md ">
             Welcome To Golden Sands Resort
           </h1>
           <h2 className="text-xl">Book Your Dream Away</h2>
@@ -87,7 +87,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="mt-8 mb">
+      <div className="mt-8 mb-10">
         <h1 className="flex justify-center items-center mb-4 text-3xl font-bold text-blue-300 text-shadow-md">
           View Resort
         </h1>
