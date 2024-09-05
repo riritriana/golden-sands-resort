@@ -60,18 +60,6 @@ export default function Header() {
           </li>
           <li className="flex items-center gap-2">
             <NavLink
-              to="/admin"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-600"
-              }
-            >
-              Admin
-            </NavLink>
-          </li>
-          <li className="flex items-center gap-2">
-            <NavLink
               to="/login"
               className={({ isActive }) =>
                 isActive

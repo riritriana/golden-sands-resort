@@ -3,8 +3,6 @@ package com.goldensandresort.hotel.service;
 import java.security.SecureRandom;
 import java.text.ParseException;
 
-import javax.crypto.SecretKey;
-
 import org.springframework.stereotype.Service;
 
 import com.nimbusds.jose.JOSEException;
@@ -56,31 +54,4 @@ public class JwtService {
         response.addCookie(cookie);
     }
 
-}
-
-// jika menggunakan `i.jsonwebtoken:jjwt-api`
-@Service
-public class JwtService {
-
-    public static final SecretKey key = Jwts.SIG.HS256.key().build();
-
-    public String create(String email) {
-        return Jwts.builder().subject(email).signWith(key).compact();
-    }
-
-    public String validate(String token) {
-        try {
-            return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
-        } catch (JwtException e) {
-            return null;
-        }
-    }
-
-    public void signOut(HttpServletResponse response) {
-        Cookie cookie = new Cookie("token", null);
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-    }
 }

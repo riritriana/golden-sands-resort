@@ -28,9 +28,7 @@ public class HotelController {
         return hotelService.getAllHotels();
     }
 
-    // get by id hotel
-
-    @PostMapping()
+    @PostMapping
     public String postHotel(@RequestBody Hotel hotel) {
         return hotelService.addHotel(hotel);
     }
@@ -45,4 +43,3 @@ public class HotelController {
         return hotelService.deleteHotel(id);
     }
 }
-

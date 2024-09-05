@@ -1,6 +1,6 @@
 export default function Galery() {
   return (
-    <div>
+    <div className="h-screen">
       <div>ini galery</div>
     </div>
   );

@@ -1,9 +1,9 @@
 package com.goldensandresort.hotel.config;
 
 import java.io.IOException;
-import java.util.logging.Logger;
+// import java.util.logging.Logger;
 
-import org.slf4j.LoggerFactory;
+// import org.slf4j.LoggerFactory;
 // import org.apache.catalina.filters.RequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,6 +53,7 @@ public class RequestFilter extends OncePerRequestFilter {
                     String token = cookie.getValue();
                     String subject;
                     try {
+                        System.out.println(token);
                         subject = jwtService.verify(token);
                         id = Long.parseLong(subject);
                     } catch (Exception e) {

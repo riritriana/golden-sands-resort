@@ -7,7 +7,7 @@ export default function Register() {
     name: "",
     email: "",
     password: "",
-    address: "",
+    addres: "",
     noHp: "",
   });
   const [message, setMessage] = useState("");
@@ -16,7 +16,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/api/user", {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function Register() {
             <input
               type="text"
               value={user.name}
-              onChange={(e) => setUser(e.target.value)}
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -61,9 +61,9 @@ export default function Register() {
               Email
             </label>
             <input
-              value={user.email}
-              onChange={(e) => setUser(e.target.value)}
               type="email"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -72,9 +72,9 @@ export default function Register() {
               Password
             </label>
             <input
-              value={user.password}
               type="password"
-              onChange={(e) => setUser(e.target.value)}
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -83,9 +83,9 @@ export default function Register() {
               Address
             </label>
             <input
-              value={user.address}
               type="text"
-              onChange={(e) => setUser(e.target.value)}
+              value={user.addres} // Typo diperbaiki
+              onChange={(e) => setUser({ ...user, address: e.target.value })}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -94,31 +94,18 @@ export default function Register() {
               No. HP
             </label>
             <input
-              value={user.noHp}
-              onChange={(e) => setUser(e.target.value)}
               type="text"
+              value={user.noHp}
+              onChange={(e) => setUser({ ...user, noHp: e.target.value })}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
-          <div className="flex justify-between">
-            <button
-              type="submit"
-              className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-2"
-            >
-              Register
-            </button>
-            {/* <button
-              type="button"
-              className="w-full py-2 px-4 bg-gray-400 text-white font-semibold rounded-md shadow hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 ml-2"
-              // onClick={() => {
-              //   // Action to cancel, e.g., redirect to another page or clear the form
-              // }}
-            >
-              <Link to="/" className="text-blue-500 hover:underline">
-                Cancel
-              </Link>
-            </button> */}
-          </div>
+          <button
+            type="submit"
+            className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Register
+          </button>
         </form>
       </div>
     </div>

@@ -1,10 +1,14 @@
 package com.goldensandresort.hotel.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +25,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("api/auth")
+@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final JwtService jwtService;
@@ -35,10 +40,11 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRole("user");
             return ResponseEntity.ok(userRepository.save(user));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -46,9 +52,21 @@ public class AuthController {
     }
 
     @PostMapping("sign-in")
-    public ResponseEntity<String> signIn(@RequestParam String email, @RequestParam String password,
+    public ResponseEntity<Map<String, Object>> signIn(@RequestParam String email, @RequestParam String password,
             HttpServletResponse response) throws JOSEException {
         User user = userRepository.findByEmail(email);
+        System.out.println("user : " + user);
+        User user1 = userRepository.findByRole("admin");
+        if (user1 == null) {
+            User admin = new User();
+            user.setAddres("admin");
+            user.setEmail("admin@gmail.com");
+            user.setName("admin");
+            user.setNoHp("admin");
+            user.setPassword(passwordEncoder.encode("admin"));
+            user.setRole("admin");
+            userRepository.save(admin);
+        }
         if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 String token = jwtService.create(user.getId().toString());
@@ -59,7 +77,12 @@ public class AuthController {
                 cookie.setPath("/");
                 response.addCookie(cookie);
 
-                return ResponseEntity.ok(token);
+                // Membuat response menggunakan Map
+                Map<String, Object> responseBody = new HashMap<>();
+                responseBody.put("token", token);
+                responseBody.put("role", user.getRole());
+
+                return ResponseEntity.ok(responseBody);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }

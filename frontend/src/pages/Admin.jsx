@@ -1,14 +1,20 @@
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 export default function Admin() {
   const [hotel, setHotel] = useState([]);
   const [currentHotel, setCurrentHotel] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/hotel")
+    fetch("http://localhost:8080/api/hotel", {
+      headers: {
+        Authorization: "Bearer " + JSON.parse(Cookies.get("token")),
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
-        setHotel(data);
+        console.log(data);
+        // setHotel(data);
       })
       .catch((error) => {
         console.error("Error fetching hotel data:", error);
@@ -30,9 +36,14 @@ export default function Admin() {
     })
       .then((response) => response.text())
       .then(() => {
-        fetch("http://localhost:8080/api/hotel")
+        fetch("http://localhost:8080/api/hotel", {
+          headers: {
+            Authorization: "Bearer " + Cookies.get("token"),
+          },
+        })
           .then((response) => response.json())
-          .then((data) => setHotel(data));
+          // .then((data) => setHotel(data));
+          .then((data) => console.log(data));
         setCurrentHotel(null); // Clear the form
       });
   }
@@ -71,53 +82,55 @@ export default function Admin() {
         </button>
       </div>
       <div className="grid grid-cols-1 gap-4">
-        {hotel.map((htl) => (
-          <div
-            key={htl.id}
-            className="border p-4 rounded shadow-md flex flex-col lg:flex-row items-start"
-          >
-            <div className="w-full lg:w-1/3 mb-4 lg:mb-0 flex flex-col items-center">
-              <img
-                src={htl.image}
-                alt=""
-                className="rounded w-full h-48 object-cover"
-              />
-              <div className="mt-4 flex space-x-2">
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                  onClick={() => setCurrentHotel(htl)}
-                >
-                  Update
-                </button>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                  onClick={() => handleDelete(htl.id)}
-                >
-                  Delete
-                </button>
+        {hotel &&
+          hotel.map((htl) => (
+            <div
+              key={htl.id}
+              className="border p-4 rounded shadow-md flex flex-col lg:flex-row items-start"
+            >
+              <div className="w-full lg:w-1/3 mb-4 lg:mb-0 flex flex-col items-center">
+                <img
+                  src={htl.image}
+                  alt=""
+                  className="rounded w-full h-48 object-cover"
+                />
+                <div className="mt-4 flex space-x-2">
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                    onClick={() => setCurrentHotel(htl)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                    onClick={() => handleDelete(htl.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex-1 lg:pl-6">
+                <p className="font-semibold mb-2">Room Type: {htl.roomType}</p>
+                <p className="mb-2">
+                  <span className="font-semibold">Description:</span>{" "}
+                  {htl.description}
+                </p>
+                <p className="mb-2">
+                  <span className="font-semibold">Capacity:</span>{" "}
+                  {htl.capasity}
+                </p>
+                <p className="mb-2">
+                  <span className="font-semibold">Room Facilities:</span>{" "}
+                  {htl.roomFacilities}
+                </p>
+                <p className="font-semibold">
+                  Price:
+                  <span className="text-red-500"> Rp. {htl.price}</span>
+                </p>
               </div>
             </div>
-
-            <div className="flex-1 lg:pl-6">
-              <p className="font-semibold mb-2">Room Type: {htl.roomType}</p>
-              <p className="mb-2">
-                <span className="font-semibold">Description:</span>{" "}
-                {htl.description}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold">Capacity:</span> {htl.capasity}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold">Room Facilities:</span>{" "}
-                {htl.roomFacilities}
-              </p>
-              <p className="font-semibold">
-                Price:
-                <span className="text-red-500"> Rp. {htl.price}</span>
-              </p>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       {currentHotel && (
