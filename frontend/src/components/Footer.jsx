@@ -1,7 +1,7 @@
 import { Instagram, Youtube } from "lucide-react";
 export default function Footer() {
   return (
-    <div className="w-full bg-blue-600 text-white py-8">
+    <div className="w-full bg-blue-600 text-white py-8 mt-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between">
         <div>
           <h3 className="text-lg font-bold mb-4">Contact Us</h3>

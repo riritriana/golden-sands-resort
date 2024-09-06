@@ -1,20 +1,17 @@
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function Admin() {
   const [hotel, setHotel] = useState([]);
   const [currentHotel, setCurrentHotel] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://localhost:8080/api/hotel", {
-      headers: {
-        Authorization: "Bearer " + JSON.parse(Cookies.get("token")),
-      },
-    })
+    fetch("http://localhost:8080/api/hotel")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        // setHotel(data);
+        setHotel(data);
       })
       .catch((error) => {
         console.error("Error fetching hotel data:", error);
@@ -28,36 +25,55 @@ export default function Admin() {
       : "http://localhost:8080/api/hotel";
 
     fetch(url, {
+      credentials: "include",
       method: method,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("token"),
       },
       body: JSON.stringify(currentHotel),
     })
       .then((response) => response.text())
       .then(() => {
         fetch("http://localhost:8080/api/hotel", {
+          credentials: "include",
           headers: {
             Authorization: "Bearer " + Cookies.get("token"),
           },
         })
           .then((response) => response.json())
-          // .then((data) => setHotel(data));
-          .then((data) => console.log(data));
+          .then((data) => setHotel(data));
+        // .then((data) => console.log(data));
         setCurrentHotel(null); // Clear the form
       });
   }
 
   function handleDelete(id) {
-    fetch(`http://localhost:8080/api/hotel/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.text())
-      .then(() => {
-        setHotel((prevHotel) => prevHotel.filter((h) => h.id !== id));
-      });
+    const isConfirmed = window.confirm("Apakah kamu yakin mau menghapus ini?");
+    if (isConfirmed) {
+      fetch(`http://localhost:8080/api/hotel/${id}`, {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + Cookies.get("token"),
+        },
+      })
+        .then((response) => response.text())
+        .then(() => {
+          setHotel((prevHotel) => prevHotel.filter((h) => h.id !== id));
+        })
+        .catch((error) => {
+          console.error("Error deleting hotel data:", error);
+        });
+    }
   }
 
+  function handledetails() {
+    navigate("/details");
+  }
+  function handleBack() {
+    navigate("/");
+  }
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-6 ">Admin Page</h1>
@@ -77,60 +93,67 @@ export default function Admin() {
         >
           Add
         </button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <button
+          onClick={handledetails}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
           Datas Customers
+        </button>
+        <button
+          onClick={handleBack}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        >
+          Back
         </button>
       </div>
       <div className="grid grid-cols-1 gap-4">
-        {hotel &&
-          hotel.map((htl) => (
-            <div
-              key={htl.id}
-              className="border p-4 rounded shadow-md flex flex-col lg:flex-row items-start"
-            >
-              <div className="w-full lg:w-1/3 mb-4 lg:mb-0 flex flex-col items-center">
-                <img
-                  src={htl.image}
-                  alt=""
-                  className="rounded w-full h-48 object-cover"
-                />
-                <div className="mt-4 flex space-x-2">
-                  <button
-                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-                    onClick={() => setCurrentHotel(htl)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                    onClick={() => handleDelete(htl.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex-1 lg:pl-6">
-                <p className="font-semibold mb-2">Room Type: {htl.roomType}</p>
-                <p className="mb-2">
-                  <span className="font-semibold">Description:</span>{" "}
-                  {htl.description}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Capacity:</span>{" "}
-                  {htl.capasity}
-                </p>
-                <p className="mb-2">
-                  <span className="font-semibold">Room Facilities:</span>{" "}
-                  {htl.roomFacilities}
-                </p>
-                <p className="font-semibold">
-                  Price:
-                  <span className="text-red-500"> Rp. {htl.price}</span>
-                </p>
+        {hotel.map((htl) => (
+          <div
+            key={htl.id}
+            className="border p-4 rounded shadow-md flex flex-col lg:flex-row items-start"
+          >
+            <div className="w-full lg:w-1/3 mb-4 lg:mb-0 flex flex-col items-center">
+              <img
+                src={htl.image}
+                alt=""
+                className="rounded w-full h-48 object-cover"
+              />
+              <div className="mt-4 flex space-x-2">
+                <button
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                  onClick={() => setCurrentHotel(htl)}
+                >
+                  Update
+                </button>
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  onClick={() => handleDelete(htl.id)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
-          ))}
+
+            <div className="flex-1 lg:pl-6">
+              <p className="font-semibold mb-2">Room Type: {htl.roomType}</p>
+              <p className="mb-2">
+                <span className="font-semibold">Description:</span>{" "}
+                {htl.description}
+              </p>
+              <p className="mb-2">
+                <span className="font-semibold">Capacity:</span> {htl.capasity}
+              </p>
+              <p className="mb-2">
+                <span className="font-semibold">Room Facilities:</span>{" "}
+                {htl.roomFacilities}
+              </p>
+              <p className="font-semibold">
+                Price:
+                <span className="text-red-500"> Rp. {htl.price}</span>
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
 
       {currentHotel && (

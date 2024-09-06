@@ -84,8 +84,8 @@ export default function Register() {
             </label>
             <input
               type="text"
-              value={user.addres} // Typo diperbaiki
-              onChange={(e) => setUser({ ...user, address: e.target.value })}
+              value={user.addres}
+              onChange={(e) => setUser({ ...user, addres: e.target.value })}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>

@@ -23,7 +23,7 @@ export default function Login() {
 
       // if (response.ok) {
       // Store the JWT token and role if necessary
-      Cookie.set("token", JSON.stringify(data.token));
+      Cookie.set("token", data.token);
       // Redirect based on role
       if (data.role === "admin") {
         navigate("/admin");

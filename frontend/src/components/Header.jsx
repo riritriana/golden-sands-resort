@@ -1,6 +1,13 @@
 import { NavLink } from "react-router-dom";
-
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 export default function Header() {
+  const token = Cookies.get("token");
+  const navigate = useNavigate();
+  function handleLogout() {
+    Cookies.remove("token");
+    navigate("/login");
+  }
   return (
     <header className="w-full flex items-center justify-between bg-slate-100 shadow-lg px-6 py-6 font-serif">
       <div className="flex w-1/2 items-center gap-4">
@@ -46,30 +53,25 @@ export default function Header() {
               Rooms & Suites
             </NavLink>
           </li>
-          <li className="flex items-center gap-2">
-            <NavLink
-              to="/galery"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-600"
-              }
-            >
-              Gallery
-            </NavLink>
-          </li>
-          <li className="flex items-center gap-2">
-            <NavLink
-              to="/login"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-600"
-              }
-            >
-              Login
-            </NavLink>
-          </li>
+          {!token && (
+            <li className="flex items-center gap-2">
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-blue-500 border-b-2 border-blue-500"
+                    : "text-gray-600"
+                }
+              >
+                Login
+              </NavLink>
+            </li>
+          )}
+          {token && (
+            <li className="flex items-center gap-2">
+              <button onClick={handleLogout}>Logout</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

@@ -12,6 +12,8 @@ import Admin from "./pages/Admin.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Booking from "./pages/Booking.jsx";
+import Payment from "./pages/Payment.jsx";
+import Details from "./pages/Details.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,8 +49,16 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "/booking",
+        path: "/booking/:id",
         element: <Booking />,
+      },
+      {
+        path: "/payment",
+        element: <Payment />,
+      },
+      {
+        path: "/details",
+        element: <Details />,
       },
     ],
   },
