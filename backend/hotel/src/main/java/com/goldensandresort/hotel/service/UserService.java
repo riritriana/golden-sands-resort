@@ -28,4 +28,8 @@ public class UserService {
         return "berhasil di delete";
     }
 
+    // Mendapatkan user berdasarkan ID
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }

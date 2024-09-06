@@ -25,9 +25,9 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> {
-                    auth.requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated();
-                    auth.requestMatchers(HttpMethod.GET, "/api/auth/sign-out").authenticated();
-                    auth.requestMatchers(HttpMethod.GET, "/api/hotel").authenticated();
+                    // auth.requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated();
+                    // auth.requestMatchers(HttpMethod.GET, "/api/auth/sign-out").authenticated();
+                    auth.requestMatchers(HttpMethod.POST, "/api/hotel").authenticated();
 
                     auth.anyRequest().permitAll();
                 })

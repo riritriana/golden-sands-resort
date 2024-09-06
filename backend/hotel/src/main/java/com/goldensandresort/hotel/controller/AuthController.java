@@ -70,7 +70,6 @@ public class AuthController {
         if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 String token = jwtService.create(user.getId().toString());
-
                 Cookie cookie = new Cookie("token", token);
                 cookie.setHttpOnly(true);
                 cookie.setMaxAge(60 * 60 * 24 * 7);
@@ -81,7 +80,6 @@ public class AuthController {
                 Map<String, Object> responseBody = new HashMap<>();
                 responseBody.put("token", token);
                 responseBody.put("role", user.getRole());
-
                 return ResponseEntity.ok(responseBody);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

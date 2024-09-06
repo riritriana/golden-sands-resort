@@ -37,4 +37,10 @@ public class UserController {
     public String deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
+
+    // Menambahkan endpoint untuk mendapatkan user berdasarkan ID
+    @GetMapping("{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
 }

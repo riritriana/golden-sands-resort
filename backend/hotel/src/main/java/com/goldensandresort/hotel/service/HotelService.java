@@ -24,6 +24,11 @@ public class HotelService {
         return hotelRepository.findAll();
     }
 
+    // get hotel by id
+    public Hotel getHotelById(Long id) {
+        return hotelRepository.findById(id).orElse(null);
+    }
+
     // Memperbarui hotel berdasarkan ID
     public String updateHotel(Long id, Hotel hotel) {
         hotel.setId(id); // Pastikan hotel memiliki ID yang benar

@@ -26,9 +26,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class RequestFilter extends OncePerRequestFilter {
 
-    // private static final Logger logger =
-    // LoggerFactory.getLogger(RequestFilter.class);
-
     private final JwtService jwtService;
     private final UserRepository userRepository;
 
@@ -42,7 +39,8 @@ public class RequestFilter extends OncePerRequestFilter {
     public void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain)
             throws IOException, ServletException {
-
+        String auth = request.getHeaders("Authorization").toString();
+        System.out.println("Ini adalah auth :" + auth);
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
